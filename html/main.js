@@ -1,5 +1,6 @@
-//script to show graphs
-var URL_JSON = 'http://xxxxxx/roomcondition/wfirex_sensor.json'
+// script to show graphs
+// UTL to JSON file
+var URL_JSON = 'http://XXXXXXXXXXXXX/roomcondition/wfirex_sensor.json'
 
 $.getJSON(URL_JSON + '?timestamp=${new Date().getTime()}', (jasondata) => {
     // JSONデータを受信した後に実行する処理
@@ -10,7 +11,8 @@ $.getJSON(URL_JSON + '?timestamp=${new Date().getTime()}', (jasondata) => {
 
     //JSONファイルを変換
     for(var i=0; i<jasondata.length; i++){
-        DatetimeArray[i] = jasondata[i].DateTime;
+        //Shift 9 hours to be JAPAN time zone.
+        DatetimeArray[i] = moment(jasondata[i].DateTime).subtract(9,'h');
         TemperatureArray[i] = jasondata[i].Temperature;
         HumidityArray[i] = jasondata[i].Humidity;
     }
