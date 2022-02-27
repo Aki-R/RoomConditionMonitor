@@ -13,6 +13,15 @@
         <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
 
         <h1>Room Condition Monitor</h1>
+        <div>
+            時間幅
+            <select id="time_range" onchange="time_range_change();">
+                <option value="week">１週間</option>
+                <option value="day">１日</option>
+                <option value="one_month">１カ月</option>
+                <option value="three_month">3カ月</option>
+            </select>
+        </div>
         <div class="temperature">
             <canvas id="Temperature"></canvas>
         </div>
