@@ -1,6 +1,5 @@
-// script to show graphs
-// UTL to JSON file
-var URL_JSON = 'http://XXXXXXXXXXXXX/roomcondition/wfirex_sensor.json'
+//script to show graphs
+var URL_JSON = 'http://133.18.232.25/roomcondition/wfirex_sensor.json'
 
 $.getJSON(URL_JSON + '?timestamp=${new Date().getTime()}', (jasondata) => {
     // JSONデータを受信した後に実行する処理
@@ -11,14 +10,13 @@ $.getJSON(URL_JSON + '?timestamp=${new Date().getTime()}', (jasondata) => {
 
     //JSONファイルを変換
     for(var i=0; i<jasondata.length; i++){
-        //Shift 9 hours to be JAPAN time zone.
         DatetimeArray[i] = moment(jasondata[i].DateTime).subtract(9,'h');
         TemperatureArray[i] = jasondata[i].Temperature;
         HumidityArray[i] = jasondata[i].Humidity;
     }
 
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
+    const ctx = document.getElementById('Temperature').getContext('2d');
+    const TemperatureChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: DatetimeArray,
@@ -30,6 +28,44 @@ $.getJSON(URL_JSON + '?timestamp=${new Date().getTime()}', (jasondata) => {
                     backgroundColor: "rgba(0,0,0,0)",
                     yAxisID: "yAxis_Tmp"
                 },
+            ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                yAxis_Tmp: {
+                    position: "left",
+                    //max: 40,
+                    //suggestedMin: 0,
+                    title: {
+                        display: true,
+                        text: 'Temperature ℃',
+                    }
+                },
+                x: {
+                    type: 'time',
+                    title: {
+                        display: true,
+                        text: "Time",
+                    },
+                    min: moment(DatetimeArray[jasondata.length]).subtract(7,'d'),
+                    time: {
+                        unit: 'day',
+                        displayFormats: {
+                            hour: 'Do'
+                        },
+                    },
+                }
+            }
+        }
+    });
+    const ctx2 = document.getElementById('Humidity').getContext('2d');
+    const HumidityChart = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: DatetimeArray,
+            datasets: [
                 {
                     label: 'Humidity %',
                     data: HumidityArray,
@@ -43,19 +79,10 @@ $.getJSON(URL_JSON + '?timestamp=${new Date().getTime()}', (jasondata) => {
             responsive: true,
             maintainAspectRatio: true,
             scales: {
-                yAxis_Tmp: {
-                    position: "left",
-                    max: 40,
-                    suggestedMin: 0,
-                    title: {
-                        display: true,
-                        text: 'Temperature ℃',
-                    }
-                },
                 yAxis_Hum: {
-                    position: "right",
-                    max: 100,
-                    min: 0,
+                    position: "left",
+                    //max: 100,
+                    //min: 0,
                     title: {
                         display: true,
                         text: "Humidity %",
@@ -67,10 +94,11 @@ $.getJSON(URL_JSON + '?timestamp=${new Date().getTime()}', (jasondata) => {
                         display: true,
                         text: "Time",
                     },
+                    min: moment(DatetimeArray[jasondata.length]).subtract(7,'d'),
                     time: {
-                        unit: 'hour',
+                        unit: 'day',
                         displayFormats: {
-                            hour: 'Do, HH時'
+                            hour: 'Do'
                         },
                     },
                 }

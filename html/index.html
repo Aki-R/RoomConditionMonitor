@@ -2,6 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <link rel="stylesheet" href="http://133.18.232.25/roomcondition/style.css">
         <title>RoomConditionMonitor</title>
     </head>
     <body>
@@ -11,7 +13,12 @@
         <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
 
         <h1>Room Condition Monitor</h1>
-        <canvas id="myChart"></canvas>
-        <script src="http://xxxxxxxxxx/main.js"></script>
+        <div class="temperature">
+            <canvas id="Temperature"></canvas>
+        </div>
+        <div class="humidity">
+            <canvas id="Humidity"></canvas>
+        </div>
+        <script src="http://133.18.232.25/roomcondition/main.js"></script>
     </body>
 </html>
